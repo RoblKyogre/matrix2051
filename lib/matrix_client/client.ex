@@ -485,8 +485,10 @@ defmodule M51.MatrixClient.Client do
       end
 
     wellknown_url = "https://" <> hostname <> "/.well-known/matrix/client"
+    headers = []
+    options = [follow_redirect: true]
 
-    case httpoison.get(wellknown_url) do
+    case httpoison.get(wellknown_url, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         data = Jason.decode!(body)
         base_url = data["m.homeserver"]["base_url"]
